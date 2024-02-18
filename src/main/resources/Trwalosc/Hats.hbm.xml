@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2024-02-18 02:24:33 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Trwalosc.Hats" table="HATS" schema="APP" optimistic-lock="version">
+        <id name="hatId" type="short">
+            <column name="HAT_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="brand" type="string">
+            <column name="BRAND" length="20" />
+        </property>
+        <property name="material" type="string">
+            <column name="MATERIAL" length="15" />
+        </property>
+        <property name="type" type="string">
+            <column name="TYPE" length="10" />
+        </property>
+        <property name="styleColor" type="string">
+            <column name="STYLE_COLOR" length="15" />
+        </property>
+        <property name="hasBrim" type="java.lang.Boolean">
+            <column name="HAS_BRIM" />
+        </property>
+        <property name="hasRim" type="java.lang.Boolean">
+            <column name="HAS_RIM" />
+        </property>
+    </class>
+</hibernate-mapping>

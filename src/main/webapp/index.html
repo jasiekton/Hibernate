@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Style/css/components.css">
+    <link rel="stylesheet" href="Style/css/icons.css">
+    <link rel="stylesheet" href="Style/css/responsee.css">
+    <title>Lab2-Homework</title>
+</head>
+<body>
+    <div>
+        <h2>Wybierz opcję:</h2>
+        <form action="" method="get">
+            <label>
+                <input type="radio" name="option" value="list"> Wypisz kapelusze
+            </label>
+            <label>
+                <input type="radio" name="option" value="add"> Dodaj kapelusz
+            </label>
+            <label>
+                <input type="radio" name="option" value="delete"> Usuń kapelusz
+            </label>
+            <label>
+                <input type="radio" name="option" value="modify"> Modyfikuj kapelusz
+            </label>
+        </form>
+    </div>
+
+    <hr>
+
+    <div>
+        <form class="customform" action="./Wypisywanie" method="post">
+            <div id="listForm" style="display:none;">
+                Co wypisać?
+                ID <input type="checkbox" name="ID" checked/>
+                Brand <input type="checkbox" name="brand" checked/>
+                Material <input type="checkbox" name="material" checked/>
+                Type <input type="checkbox" name="type" checked/>
+                Style Color <input type="checkbox" name="styleColor" checked/>
+                Has Brim <input type="checkbox" name="hasBrim" checked/>
+                Has Rim <input type="checkbox" name="hasRim" checked/>
+                <br/>
+                <button type="submit" name="action" value="Wypisz kapelusze">Wypisz kapelusze</button>
+            </div>
+            <div id="addForm" style="display:none;">
+                Dodaj kapelusz:<br/>
+                ID: <input type="text" name="newID"/><br/>
+                Brand: <input type="text" name="newBrand"/><br/>
+                Material: <input type="text" name="newMaterial"/><br/>
+                Type: <input type="text" name="newType"/><br/>
+                Style Color: <input type="text" name="newStyleColor"/><br/>
+                Has Brim: <input type="checkbox" name="newHasBrim"/><br/>
+                Has Rim: <input type="checkbox" name="newHasRim"/><br/>
+                <button type="submit" name="action" value="Dodaj kapelusz">Dodaj kapelusz</button>
+            </div>
+            <div id="deleteForm" style="display:none;">
+                Usuń kapelusz o ID: <input type="text" name="deleteID"/><br/>
+                <button type="submit" name="action" value="Usun kapelusz">Usuń kapelusz</button>
+            </div>
+            <div id="modifyForm" style="display:none;">
+                Modyfikuj kapelusz o ID: <input type="text" name="modifyID"/><br/>
+                Nowy brand: <input type="text" name="modifyBrand"/><br/>
+                Nowy material: <input type="text" name="modifyMaterial"/><br/>
+                Nowy type: <input type="text" name="modifyType"/><br/>
+                Nowy styleColor: <input type="text" name="modifyStyleColor"/><br/>
+                Nowy hasBrim: <input type="checkbox" name="modifyHasBrim"/><br/>
+                Nowy hasRim: <input type="checkbox" name="modifyHasRim"/><br/>
+                <button type="submit" name="action" value="Modyfikuj kapelusz">Zmodyfikuj kapelusz</button>
+            </div>
+             <div>
+                <h2>Transaction History:</h2>
+                <ul id="transactionHistory"></ul>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('change', function(event) {
+            const option = event.target.value;
+            document.getElementById('listForm').style.display = option === 'list' ? 'block' : 'none';
+            document.getElementById('addForm').style.display = option === 'add' ? 'block' : 'none';
+            document.getElementById('deleteForm').style.display = option === 'delete' ? 'block' : 'none';
+            document.getElementById('modifyForm').style.display = option === 'modify' ? 'block' : 'none';
+        });
+
+        function showTransactionHistory() {
+    const transactionHistory = document.getElementById('transactionHistory');
+
+    if (transactionHistory) {
+        fetch('./Wypisywanie?action=showHistory')
+            .then(response => response.text())
+            .then(transactionHistoryText => {
+                transactionHistory.innerHTML = transactionHistoryText;
+            })
+            .catch(error => console.error('Error fetching transaction history:', error));
+    } else {
+        console.error('Element transactionHistory not found');
+    }
+}
+
+
+    // Dodaj poniższy fragment kodu do obsługi aktualizacji historii transakcji po powrocie z /Wypisywanie
+    document.addEventListener('DOMContentLoaded', function () {
+    const transactionHistory = document.getElementById('transactionHistory');
+    if (transactionHistory) {
+        fetch('./Wypisywanie?action=showHistory')
+            .then(response => response.text())
+            .then(transactionHistoryText => {
+                // Zamień znaki nowej linii na <br> przed wstawieniem do HTML
+                const formattedText = transactionHistoryText.replace(/\n/g, '<br>');
+                transactionHistory.innerHTML = formattedText;
+            })
+            .catch(error => console.error('Error fetching transaction history:', error));
+    }
+});
+;
+</script>
+</body>
+</html>
